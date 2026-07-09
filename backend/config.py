@@ -29,12 +29,17 @@ NEWS_FEEDS = {
     "welt": [
         # tagesschau.de - Startseite / Übersicht
         "https://www.tagesschau.de/xml/rss2/",
+        # tagesschau - alternativer Endpunkt (Absicherung)
+        "https://www.tagesschau.de/index~rss2.xml",
+        # Deutsche Welle (zweite, unabhängige Quelle als Absicherung)
+        "https://rss.dw.com/rdf/rss-de-all",
     ],
 }
 
-# Google-News-RSS-Suche für Tennis (kein API-Key nötig)
+# Google-News-RSS-Suche für Tennis (kein API-Key nötig); zwei Varianten zur Absicherung
 SPORT_FEEDS = [
     "https://news.google.com/rss/search?q=Tennis+ATP+OR+WTA+when:2d&hl=de&gl=DE&ceid=DE:de",
+    "https://news.google.com/rss/search?q=Tennis+(Grand+Slam+OR+Turnier)+when:3d&hl=de&gl=DE&ceid=DE:de",
 ]
 
 MAX_ARTICLES_PER_CATEGORY = 6

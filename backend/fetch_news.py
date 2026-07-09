@@ -4,11 +4,45 @@ from html import unescape
 from html.parser import HTMLParser
 
 import feedparser
+import requests
 
 from backend.claude_client import ask_claude_json
 from backend.config import MAX_ARTICLES_PER_CATEGORY, NEWS_FEEDS
 
 logger = logging.getLogger(__name__)
+
+# Manche Nachrichtenseiten (z. B. tagesschau, Google News) liefern aus Rechenzentren
+# (GitHub Actions) nur mit einer echten Browser-Kennung Inhalte zurück. Deshalb rufen wir
+# die Feeds selbst per requests mit passendem User-Agent ab und übergeben sie an feedparser.
+BROWSER_UA = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+)
+FEED_HEADERS = {
+    "User-Agent": BROWSER_UA,
+    "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml, */*",
+    "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
+}
+
+
+def _parse_feed(url: str):
+    """Ruft einen Feed möglichst robust ab (requests + Browser-UA, Fallback: feedparser direkt)."""
+    try:
+        resp = requests.get(url, headers=FEED_HEADERS, timeout=20)
+        resp.raise_for_status()
+        parsed = feedparser.parse(resp.content)
+        if parsed.entries:
+            return parsed
+        logger.warning("Feed lieferte keine Einträge via requests: %s", url)
+    except Exception as exc:
+        logger.warning("Direktabruf via requests fehlgeschlagen für %s (%s) - versuche feedparser direkt", url, exc)
+
+    # Fallback: feedparser mit eigenem User-Agent selbst laden lassen
+    try:
+        return feedparser.parse(url, agent=BROWSER_UA)
+    except Exception:
+        logger.exception("Auch feedparser-Direktabruf fehlgeschlagen: %s", url)
+        return None
 
 
 class _HTMLStripper(HTMLParser):
@@ -36,9 +70,9 @@ def fetch_raw_entries(feed_urls: list, limit_per_feed: int = 12) -> list:
     entries = []
     for url in feed_urls:
         try:
-            parsed = feedparser.parse(url)
-            if parsed.bozo and not parsed.entries:
-                logger.warning("Feed konnte nicht gelesen werden: %s (%s)", url, parsed.bozo_exception)
+            parsed = _parse_feed(url)
+            if not parsed or not parsed.entries:
+                logger.warning("Feed konnte nicht gelesen werden oder ist leer: %s", url)
                 continue
             source_name = parsed.feed.get("title", url)
             for entry in parsed.entries[:limit_per_feed]:
