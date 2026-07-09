@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#7a1f1f">
+<title>Solitär - Oma-Zeitung</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/games.css">
+</head>
+<body>
+<header class="masthead">
+  <div>
+    <h1 class="masthead__title">Oma-Zeitung</h1>
+    <p class="masthead__date">Solitär (Klondike)</p>
+  </div>
+  <div class="masthead__controls">
+    <div class="fontsize-group" role="group" aria-label="Schriftgröße">
+      <button class="fontsize-btn" data-size="small" title="Kleinere Schrift">A-</button>
+      <button class="fontsize-btn" data-size="medium" title="Normale Schrift">A</button>
+      <button class="fontsize-btn" data-size="large" title="Größere Schrift">A+</button>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <a class="tab-link" href="index.html">Titelseite</a>
+  <a class="tab-link active" href="spiele.html">Spiele</a>
+  <a class="tab-link" href="archiv.html">Archiv</a>
+</nav>
+
+<main>
+  <div class="section-block">
+    <h2 class="section-title">Solitär</h2>
+    <p style="color:var(--color-muted)">Karte antippen und ziehen, um sie zu bewegen. Kurz antippen versucht,
+      die Karte automatisch abzulegen. Auf den Stapel links oben tippen, um eine neue Karte aufzudecken.</p>
+    <div class="solitaire-controls">
+      <button class="btn" id="new-game-btn">Neues Spiel</button>
+      <a class="btn btn--secondary" href="spiele.html">Zurück zu Spiele</a>
+    </div>
+    <div id="win-banner" class="win-banner" hidden>🎉 Gewonnen! Herzlichen Glückwunsch!</div>
+
+    <div class="solitaire-board" id="solitaire-board">
+      <div class="solitaire-row">
+        <div class="pile-slot" id="pile-stock"></div>
+        <div class="pile-slot" id="pile-waste"></div>
+        <div style="flex:1 1 auto;min-width:20px;"></div>
+        <div class="pile-slot" id="pile-foundation-H" data-suit="H"></div>
+        <div class="pile-slot" id="pile-foundation-D" data-suit="D"></div>
+        <div class="pile-slot" id="pile-foundation-C" data-suit="C"></div>
+        <div class="pile-slot" id="pile-foundation-S" data-suit="S"></div>
+      </div>
+      <div class="solitaire-row" id="tableau-row">
+        <div class="tableau-slot" id="tableau-0" data-col="0"></div>
+        <div class="tableau-slot" id="tableau-1" data-col="1"></div>
+        <div class="tableau-slot" id="tableau-2" data-col="2"></div>
+        <div class="tableau-slot" id="tableau-3" data-col="3"></div>
+        <div class="tableau-slot" id="tableau-4" data-col="4"></div>
+        <div class="tableau-slot" id="tableau-5" data-col="5"></div>
+        <div class="tableau-slot" id="tableau-6" data-col="6"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div>Oma-Zeitung &middot; erscheint täglich</div>
+  <div class="ai-badge">Inhalte erstellt mit Künstlicher Intelligenz (Claude)</div>
+</footer>
+
+<script src="js/fontsize.js"></script>
+<script src="js/swipe-nav.js"></script>
+<script src="js/sw-register.js"></script>
+<script src="js/games/solitaire.js"></script>
+</body>
+</html>

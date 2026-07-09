@@ -1,0 +1,66 @@
+name: Tägliche Ausgabe erstellen & veröffentlichen
+
+# Erzeugt einmal morgens die neue Ausgabe (ersetzt den lokalen Cronjob) und
+# veröffentlicht die Zeitung als statische Seite auf GitHub Pages.
+
+on:
+  schedule:
+    # 05:00 UTC  ->  07:00 Uhr Sommerzeit (MESZ) / 06:00 Uhr Winterzeit (MEZ)
+    - cron: "0 5 * * *"
+  workflow_dispatch: {}   # erlaubt manuelles Auslösen per Knopf in GitHub
+
+# Nur ein Lauf gleichzeitig; laufende Deploys nicht abbrechen
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # um die erzeugten JSON-Dateien zurück ins Repo zu committen
+      pages: write         # um auf GitHub Pages zu veröffentlichen
+      id-token: write      # für den Pages-Deploy
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Abhängigkeiten installieren
+        run: pip install -r requirements.txt
+
+      - name: Neue Ausgabe erzeugen
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m backend.main
+
+      - name: Erzeugte Ausgabe ins Repo committen (Archiv sichern)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add frontend/data
+          if git diff --cached --quiet; then
+            echo "Keine Änderungen zu committen."
+          else
+            git commit -m "Ausgabe vom $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      - name: GitHub Pages konfigurieren
+        uses: actions/configure-pages@v5
+
+      - name: Frontend als Pages-Artefakt hochladen
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend
+
+      - name: Auf GitHub Pages veröffentlichen
+        id: deployment
+        uses: actions/deploy-pages@v4

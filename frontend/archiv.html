@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#7a1f1f">
+<title>Archiv - Oma-Zeitung</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/archiv.css">
+</head>
+<body>
+<div class="offline-banner" id="offline-banner">Kein Internet - Archiv evtl. nicht vollständig verfügbar.</div>
+
+<header class="masthead">
+  <div>
+    <h1 class="masthead__title">Oma-Zeitung</h1>
+    <p class="masthead__date">Archiv vergangener Ausgaben</p>
+  </div>
+  <div class="masthead__controls">
+    <div class="fontsize-group" role="group" aria-label="Schriftgröße">
+      <button class="fontsize-btn" data-size="small" title="Kleinere Schrift">A-</button>
+      <button class="fontsize-btn" data-size="medium" title="Normale Schrift">A</button>
+      <button class="fontsize-btn" data-size="large" title="Größere Schrift">A+</button>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <a class="tab-link" href="index.html">Titelseite</a>
+  <a class="tab-link" href="spiele.html">Spiele</a>
+  <a class="tab-link active" href="archiv.html">Archiv</a>
+</nav>
+
+<main>
+  <div id="list-view">
+    <div class="section-block">
+      <h2 class="section-title">Ausgaben durchsuchen</h2>
+      <div class="archive-search">
+        <input type="text" id="date-search" inputmode="numeric"
+               placeholder="Datum suchen, z. B. 2026-07 oder 2026-07-09">
+        <button class="btn btn--secondary" id="clear-search">Alle anzeigen</button>
+      </div>
+      <div id="editions-list" class="loading">Ausgaben werden geladen ...</div>
+    </div>
+  </div>
+
+  <div id="detail-view" hidden>
+    <div class="btn-row">
+      <button class="btn btn--secondary" id="back-to-list">← Zurück zur Liste</button>
+      <button class="btn btn--secondary" id="detail-print-btn">Drucken / PDF</button>
+    </div>
+    <p class="masthead__date" id="detail-date" style="font-size:1.4rem;"></p>
+
+    <div class="paper-grid" id="detail-paper-grid">
+      <section class="col-main">
+        <div class="section-block" id="detail-section-lokal">
+          <h2 class="section-title">Lokal - Flensburg &amp; Schleswig-Holstein</h2>
+          <div id="detail-lokal-list"></div>
+        </div>
+        <div class="section-block" id="detail-section-welt">
+          <h2 class="section-title">Welt</h2>
+          <div id="detail-welt-list"></div>
+        </div>
+      </section>
+
+      <aside class="col-side">
+        <div class="section-block weather-box" id="detail-weather-box">
+          <div class="weather-box__emoji" data-weather-emoji>🌡️</div>
+          <div>
+            <div class="weather-box__temp" data-weather-temp>-</div>
+            <div class="weather-box__meta" data-weather-meta></div>
+          </div>
+        </div>
+
+        <div class="section-block history-box" id="detail-history-box">
+          <h2 class="section-title">Auf den Tag vor Jahren</h2>
+          <div data-history-content></div>
+        </div>
+
+        <div class="section-block" id="detail-section-sport">
+          <h2 class="section-title">Sport - Tennis</h2>
+          <div id="detail-sport-list"></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div>Oma-Zeitung &middot; erscheint täglich</div>
+  <div class="ai-badge">Inhalte erstellt mit Künstlicher Intelligenz (Claude)</div>
+</footer>
+
+<script src="js/fontsize.js"></script>
+<script src="js/swipe-nav.js"></script>
+<script src="js/sw-register.js"></script>
+<script src="js/edition-render.js"></script>
+<script src="js/archiv.js"></script>
+</body>
+</html>

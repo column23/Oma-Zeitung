@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#7a1f1f">
+<title>Sudoku - Oma-Zeitung</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/games.css">
+</head>
+<body>
+<header class="masthead">
+  <div>
+    <h1 class="masthead__title">Oma-Zeitung</h1>
+    <p class="masthead__date">Sudoku des Tages</p>
+  </div>
+  <div class="masthead__controls">
+    <div class="fontsize-group" role="group" aria-label="Schriftgröße">
+      <button class="fontsize-btn" data-size="small" title="Kleinere Schrift">A-</button>
+      <button class="fontsize-btn" data-size="medium" title="Normale Schrift">A</button>
+      <button class="fontsize-btn" data-size="large" title="Größere Schrift">A+</button>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <a class="tab-link" href="index.html">Titelseite</a>
+  <a class="tab-link active" href="spiele.html">Spiele</a>
+  <a class="tab-link" href="archiv.html">Archiv</a>
+</nav>
+
+<main>
+  <div class="section-block">
+    <h2 class="section-title">Sudoku (mittel)</h2>
+    <p id="sudoku-status" class="loading">Rätsel wird geladen ...</p>
+    <div id="sudoku-grid" class="sudoku-grid" hidden></div>
+    <div id="sudoku-numpad" class="sudoku-numpad" hidden></div>
+    <div class="btn-row">
+      <button class="btn" id="check-btn" hidden>Prüfen</button>
+      <button class="btn btn--secondary" id="reset-btn" hidden>Zurücksetzen</button>
+      <a class="btn btn--secondary" href="spiele.html">Zurück zu Spiele</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div>Oma-Zeitung &middot; erscheint täglich</div>
+  <div class="ai-badge">Inhalte erstellt mit Künstlicher Intelligenz (Claude)</div>
+</footer>
+
+<script src="js/fontsize.js"></script>
+<script src="js/swipe-nav.js"></script>
+<script src="js/sw-register.js"></script>
+<script src="js/games/sudoku.js"></script>
+</body>
+</html>

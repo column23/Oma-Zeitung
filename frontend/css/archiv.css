@@ -1,0 +1,51 @@
+/* Zusätzliche Styles für die Archiv-Seite */
+
+.archive-search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.archive-search input[type="text"] {
+  flex: 1 1 260px;
+  min-height: var(--touch-min);
+  font-size: 1.1rem;
+  padding: 0.5rem 0.9rem;
+  border: 2px solid var(--color-line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--color-text);
+}
+
+.edition-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  min-height: var(--touch-min);
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 0.6rem;
+  background: #fff;
+  border: 2px solid var(--color-line);
+  border-radius: 12px;
+  font-size: 1.1rem;
+  text-align: left;
+  color: var(--color-text);
+}
+
+.edition-entry strong {
+  font-family: var(--font-serif);
+  color: var(--color-accent);
+}
+
+.edition-entry span.count {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.edition-entry:active {
+  background: var(--color-bg);
+}
