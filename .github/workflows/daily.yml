@@ -4,10 +4,12 @@ name: Tägliche Ausgabe erstellen & veröffentlichen
 # veröffentlicht die Zeitung als statische Seite auf GitHub Pages.
 
 on:
-  schedule:
-    # 05:00 UTC  ->  07:00 Uhr Sommerzeit (MESZ) / 06:00 Uhr Winterzeit (MEZ)
-    - cron: "0 5 * * *"
-  workflow_dispatch: {}   # erlaubt manuelles Auslösen per Knopf in GitHub
+  # === Automatischer Zeitplan DEAKTIVIERT (keine kostenpflichtigen Läufe mehr) ===
+  # Zum Reaktivieren einfach die folgenden drei Zeilen einkommentieren:
+  # schedule:
+  #   # 05:00 UTC -> 07:00 Uhr Sommerzeit (MESZ) / 06:00 Uhr Winterzeit (MEZ)
+  #   - cron: "0 5 * * *"
+  workflow_dispatch: {}   # nur noch manuelles Auslösen per Knopf in GitHub
 
 # Nur ein Lauf gleichzeitig; laufende Deploys nicht abbrechen
 concurrency:
